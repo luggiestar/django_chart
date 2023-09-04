@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Clubs Chart{% endblock title %}
+{% block content %}
+    <div style="width: 50rem">
+        <canvas id="myChart" width="100%"></canvas>
+    </div>
+{% endblock %}
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            const ctx = document.getElementById('myChart');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [{% for item in qs %} '{{ item.name }}', {% endfor %}],
+                    datasets: [{
+                        label: '# of Votes',
+                        data: [{% for item in qs %} {{ item.amount }}, {% endfor %}],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(99,255,219,0.2)',
+                            'rgba(99,130,255,0.2)',
+                            'rgba(238,220,32,0.2)',
+                            'rgba(255,99,247,0.2)',
+                            'rgba(5,9,66,0.2)',
+                            'rgba(135,185,10,0.2)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })
+    </script>
+{% endblock script %}
